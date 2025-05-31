@@ -262,3 +262,29 @@ def plot_tsne_embeddings(model, loader, device, epoch):
     plt.ylabel("t-SNE Dim 2")
     plt.tight_layout()
     plt.show()
+
+
+
+def plot_confusion_matrix(true_labels, pred_labels, accuracy, title, class_names=['Cat', 'Dog']):
+    """Plot confusion matrix for binary classification"""
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from sklearn.metrics import confusion_matrix
+    
+    cm = confusion_matrix(true_labels, pred_labels, labels=[0, 1])
+    
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                xticklabels=class_names, 
+                yticklabels=class_names,
+                cbar_kws={'label': 'Count'})
+    plt.title(title)
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    
+    # Add accuracy info to the plot
+    plt.figtext(0.02, 0.02, f'Test Accuracy: {accuracy:.3f}', 
+                fontsize=10, ha='left')
+    
+    plt.tight_layout()
+    plt.show()

@@ -1,4 +1,3 @@
-
 import torch
 
 import torch.nn.functional as F
@@ -10,8 +9,8 @@ from pathlib import Path
 
 from src.losses import contrastive_loss, supervised_contrastive_loss
 
-from src.plots import plot_dataset_distribution, plot_tsne_embeddings
-from src.dataloader import build_contrastive_loader, build_classification_loader, classification_collate, ClassificationDataset, ContrastiveDataset
+from src.plots import plot_tsne_embeddings, plot_confusion_matrix
+from src.dataloader import build_contrastive_loader, build_classification_loader
 from src.models import ContrastiveModel
 
 def train_epoch(model, loader, optimizer, device):
@@ -179,7 +178,7 @@ def train_contrastive_model(config):
     print(f"Test Confusion Matrix:")
     print(f"  Cat predicted as: Cat={cm[0,0]}, Dog={cm[0,1]}")
     print(f"  Dog predicted as: Cat={cm[1,0]}, Dog={cm[1,1]}")
-    
+    plot_confusion_matrix(test_labels, test_preds, test_acc, title='Contrastive Model')
     return model, {
         'best_val_acc': best_val_acc,
         'best_epoch': best_epoch,
@@ -354,6 +353,8 @@ def train_supervised_contrastive_model(config):
     print(f"  Cat predicted as: Cat={cm[0,0]}, Dog={cm[0,1]}")
     print(f"  Dog predicted as: Cat={cm[1,0]}, Dog={cm[1,1]}")
     
+    plot_confusion_matrix(test_labels, test_preds, test_acc, title='Supervised Contrastive Model')
+
     return model, {
         'best_val_acc': best_val_acc,
         'best_epoch': best_epoch,

@@ -35,19 +35,6 @@ def balance_dataset_explicit(wavs, labels, balance_method='oversample', max_mult
             
             return balanced_wavs, balanced_labels
         
-    elif balance_method == 'undersample':
-        # Undersample majority class (cats)
-        min_samples = min(len(cat_indices), len(dog_indices))
-        
-        # Randomly select samples to keep
-        selected_cat_indices = resample(cat_indices, n_samples=min_samples, random_state=42)
-        selected_indices = selected_cat_indices + dog_indices
-        
-        balanced_wavs = [wavs[i] for i in selected_indices]
-        balanced_labels = [labels[i] for i in selected_indices]
-        
-        print(f"Undersampled to {min_samples} cats, {len(dog_indices)} dogs")
-        
         return balanced_wavs, balanced_labels
     
     # Return original if no balancing
